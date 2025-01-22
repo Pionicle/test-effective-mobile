@@ -1,59 +1,113 @@
-# **Playwright + Pytest + Allure: Тестирование сайта effective-mobile.ru**
+# **Тестирование сайта effective-mobile.ru**
 
-- ![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
-- ![Playwright](https://img.shields.io/badge/Playwright-1.49-darkgreen.svg)
-- ![Allure](https://img.shields.io/badge/Allure-2.13-yellow.svg)
+![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
+![Playwright](https://img.shields.io/badge/Playwright-1.49-darkgreen.svg)
+![Allure](https://img.shields.io/badge/Allure-2.13-yellow.svg)
 
-## **Описание**
-
-Этот проект предназначен для автоматизированного тестирования главной страницы [effective-mobile.ru](https://effective-mobile.ru) с использованием **Playwright**, **Pytest** и **Allure**.
-
-## **Функциональность**
-
-- Тестирование, проверяющие переход по всем блокам по клику (О нас, Контакты и пр.)
+Проект предназначен для автоматизированного тестирования главной страницы [effective-mobile.ru](https://effective-mobile.ru) с использованием **Playwright**, **Pytest** и **Allure**.  
+**Цель** - тестирование, проверяющие переход по всем блокам по клику (О нас, Контакты и пр.)
 
 ---
 
-## Установка Pytest
+## Содержание
+
+- [Требования](#требования)
+- [Установка](#установка)
+- [Локальный запуск](#локальный-запуск)
+- [Запуск через Docker](#запуск-через-docker)
+- [Структура проекта](#структура-проекта)
+
+---
+
+## Требования
+
+- python 3.10
+- java
+- allure
+- chrome
+
+---
+
+## Установка
+
+1. Клонируйте репозиторий:
 
 ```sh
-pip install -U pytest
+git clone https://github.com/Pionicle/test-effective-mobile.git
+cd test-effective-mobile
+```
+
+2. Установите зависимости:
+
+```sh
+pip install -r requirements
+```
+
+3. Установите chromium для **Playwright**:
+
+```sh
+playwright install --with-deps chromium
+```
+
+4. Установите [**Allure**](https://allurereport.org/docs/install/):
+
+- Windows
+
+```sh
+scoop install allure
+```
+
+- macOS
+
+```sh
+brew install allure
+```
+
+- Linux
+
+```sh
+brew install allure
+```
+
+- Node.js
+
+```sh
+npm install -g allure-commandline
 ```
 
 ---
 
-## Установка Playwright Pytest
+## Локальный запуск
+
+1. Убедитесь, что все зависимости установлены.
+2. Запустите тесты:
 
 ```sh
-pip install pytest-playwright
-playwright install
-```
-
----
-
-## Установка Allure
-
-```sh
-pip install allure-pytest
-```
-
----
-
-## **Запуск тестов**
-
-### **1. Обычный запуск**
-
-```sh
-pytest -v -s
-```
-
-### **2. Запуск тестов с отчетом `Allure`**
-
-```sh
-pytest --alluredir=results
-allure generate results
+pytest -v -s --alluredir=results
+allure generate results --clean -o allure-report
 allure open allure-report
 ```
+
+---
+
+## **Запуск через Docker**
+
+Вес докер-образа 1,74 Гб.
+
+1. Соберите Docker-образ:
+
+```sh
+docker build -t test-effective-mobile .
+```
+
+2. Запустите контейнер:
+
+```sh
+docker run -d -p {свободный_порт}:5952 test-effective-mobile
+```
+
+3. Передите по ссылке http://localhost:{свободный_порт}
+4. Пример `docker run -d -p 5952:5952 test-effective-mobile` - http://localhost:5952
 
 ---
 
@@ -68,8 +122,11 @@ test-effective-mobile/
 │   ├── home_page.py       # Главная страница
 │
 │── conftest.py            # Фикстуры pytest
-│── requirements.txt       # Зависимости проекта
-│── README.md              # Описание проекта
+│── requirements.txt       # Зависимости
+│── Dockerfile             # Описание проекта для сборки Docker-образа
+│── README.md
+│── .dockerignore
+│── .gitignore
 ```
 
 ---
