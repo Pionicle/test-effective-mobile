@@ -43,10 +43,10 @@ cd test-effective-mobile
 pip install -r requirements
 ```
 
-3. Установите chromium для **Playwright**:
+3. Установите браузеры для **Playwright**:
 
 ```sh
-playwright install --with-deps chromium
+playwright install --with-deps
 ```
 
 4. Установите [**Allure**](https://allurereport.org/docs/install/):
@@ -69,12 +69,6 @@ brew install allure
 brew install allure
 ```
 
-- Node.js
-
-```sh
-npm install -g allure-commandline
-```
-
 ---
 
 ## Локальный запуск
@@ -92,15 +86,13 @@ allure open allure-report
 
 ## **Запуск через Docker**
 
-Вес докер-образа 1,74 Гб.
-
-1. Соберите Docker-образ:
+1. Соберите Docker-образ (2,61 Гб):
 
 ```sh
 docker build -t test-effective-mobile .
 ```
 
-2. Запустите контейнер:
+2. Запустите контейнер и дождитесь окончания тестов (~1 мин.):
 
 ```sh
 docker run -d -p {свободный_порт}:5952 test-effective-mobile

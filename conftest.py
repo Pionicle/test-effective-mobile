@@ -1,12 +1,17 @@
 from playwright.sync_api import sync_playwright, Browser
 import pytest
+from pytest import FixtureRequest
+
+BROWSERS = ["chromium", "webkit", "firefox"]
 
 
-@pytest.fixture(scope="session")
-def browser():
+@pytest.fixture(scope="session", params=BROWSERS)
+def browser(request: FixtureRequest):
     """Фикстура для запуска браузера перед тестом."""
+
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser_name = request.param
+        browser = p[browser_name].launch(headless=True)
         yield browser
         browser.close()
 
